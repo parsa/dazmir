@@ -1,6 +1,18 @@
 add_hpx_executable(1d_stencil
-  SOURCES prog.cpp
-  HEADERS print_time_results.hpp
+  SOURCES
+    prog.cpp
+    partition_data.cpp
+    partition_server.cpp
+    stepper.cpp
+    stepper_server.cpp
+  HEADERS
+    partition.hpp
+    partition_allocator.hpp
+    partition_data.hpp
+    partition_server.hpp
+    print_time_results.hpp
+    stepper.hpp
+    stepper_server.hpp
   COMPONENT_DEPENDENCIES iostreams
 )
 

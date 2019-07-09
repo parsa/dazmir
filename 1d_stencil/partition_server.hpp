@@ -1,0 +1,80 @@
+#if !defined(PARTITION_SERVER_HPP_)
+#define PARTITION_SERVER_HPP_
+
+#include "partition_data.hpp"
+
+///////////////////////////////////////////////////////////////////////////////
+// This is the server side representation of the data. We expose this as a HPX
+// component which allows for it to be created and accessed remotely through
+// a global address (hpx::id_type).
+struct partition_server : hpx::components::component_base<partition_server>
+{
+    enum partition_type
+    {
+        left_partition,
+        middle_partition,
+        right_partition
+    };
+
+    // construct new instances
+    partition_server() {}
+
+    partition_server(partition_data const& data)
+      : data_(data)
+    {
+    }
+
+    partition_server(std::size_t size, double initial_value)
+      : data_(size, initial_value)
+    {
+    }
+
+    // Access data. The parameter specifies what part of the data should be
+    // accessed. As long as the result is used locally, no data is copied,
+    // however as soon as the result is requested from another locality only
+    // the minimally required amount of data will go over the wire.
+    partition_data get_data(partition_type t) const
+    {
+        switch (t)
+        {
+        case left_partition:
+            return partition_data(data_, data_.size() - 1);
+
+        case middle_partition:
+            break;
+
+        case right_partition:
+            return partition_data(data_, 0);
+
+        default:
+            HPX_ASSERT(false);
+            break;
+        }
+        return data_;
+    }
+
+    // Every member function which has to be invoked remotely needs to be
+    // wrapped into a component action. The macro below defines a new type
+    // 'get_data_action' which represents the (possibly remote) member function
+    // partition::get_data().
+    HPX_DEFINE_COMPONENT_DIRECT_ACTION(
+        partition_server, get_data, get_data_action);
+
+private:
+    partition_data data_;
+};
+
+// The macros below are necessary to generate the code required for exposing
+// our partition type remotely.
+//
+// HPX_REGISTER_COMPONENT() exposes the component creation
+// through hpx::new_<>().
+using partition_server_type = hpx::components::component<partition_server>;
+HPX_REGISTER_COMPONENT(partition_server_type, partition_server);
+
+// HPX_REGISTER_ACTION() exposes the component member function for remote
+// invocation.
+using get_data_action = partition_server::get_data_action;
+HPX_REGISTER_ACTION(get_data_action);
+
+#endif    // PARTITION_SERVER_HPP_
