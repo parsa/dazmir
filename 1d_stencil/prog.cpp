@@ -10,13 +10,7 @@
 
 #include <hpx/hpx_init.hpp>
 
-#include <hpx/hpx.hpp>
-#include <hpx/lcos/gather.hpp>
-#include <hpx/runtime/serialization/serialize.hpp>
-#include <hpx/util/unused.hpp>
-
-#include <boost/shared_array.hpp>
-
+#include "options.hpp"
 #include "partition.hpp"
 #include "partition_data.hpp"
 #include "partition_server.hpp"
@@ -24,11 +18,16 @@
 #include "stepper.hpp"
 #include "stepper_server.hpp"
 
+#include <hpx/hpx.hpp>
+#include <hpx/lcos/gather.hpp>
+#include <hpx/runtime/serialization/serialize.hpp>
+#include <hpx/util/unused.hpp>
+
+#include <boost/shared_array.hpp>
+
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
-#include <mutex>
-#include <stack>
 #include <string>
 #include <utility>
 #include <vector>

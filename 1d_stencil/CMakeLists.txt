@@ -1,11 +1,13 @@
 add_hpx_executable(1d_stencil
   SOURCES
     prog.cpp
+    options.cpp
     partition_data.cpp
     partition_server.cpp
     stepper.cpp
     stepper_server.cpp
   HEADERS
+    options.hpp
     partition.hpp
     partition_allocator.hpp
     partition_data.hpp
