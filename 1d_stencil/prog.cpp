@@ -37,7 +37,7 @@ void do_all_work(std::uint64_t nt, std::uint64_t nx, std::uint64_t np,
     std::uint64_t nd)
 {
     std::vector<hpx::id_type> localities = hpx::find_all_localities();
-    std::size_t nl = localities.size();                    // Number of localities
+    std::size_t nl = localities.size();    // Number of localities
 
     if (np < nl)
     {
@@ -53,14 +53,15 @@ void do_all_work(std::uint64_t nt, std::uint64_t nx, std::uint64_t np,
     std::uint64_t t = hpx::util::high_resolution_clock::now();
 
     // Perform all work and wait for it to finish
-    hpx::future<stepper_server::space> result = step.do_work(np/nl, nx, nt, nd);
+    hpx::future<stepper_server::space> result =
+        step.do_work(np / nl, nx, nt, nd);
 
     // Gather results from all localities
     if (0 == hpx::get_locality_id())
     {
         std::uint64_t const num_worker_threads = hpx::get_num_worker_threads();
 
-        hpx::future<std::vector<stepper_server::space> > overall_result =
+        hpx::future<std::vector<stepper_server::space>> overall_result =
             hpx::lcos::gather_here(gather_basename, std::move(result), nl);
 
         std::vector<stepper_server::space> solution = overall_result.get();

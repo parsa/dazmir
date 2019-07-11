@@ -15,27 +15,28 @@ struct stepper : hpx::components::client_base<stepper, stepper_server>
 
     // construct new instances/wrap existing steppers from other localities
     stepper(std::size_t num_localities)
-        : base_type(hpx::new_<stepper_server>(hpx::find_here(), num_localities))
+      : base_type(hpx::new_<stepper_server>(hpx::find_here(), num_localities))
     {
-        hpx::register_with_basename(stepper_basename, get_id(),
-            hpx::get_locality_id());
+        hpx::register_with_basename(
+            stepper_basename, get_id(), hpx::get_locality_id());
     }
 
     stepper(hpx::future<hpx::id_type>&& id)
-        : base_type(std::move(id))
-    {}
+      : base_type(std::move(id))
+    {
+    }
 
     ~stepper()
     {
         // break cyclic dependencies
-        hpx::future<void> f1 = hpx::async(
-            release_dependencies_action(), get_id());
+        hpx::future<void> f1 =
+            hpx::async(release_dependencies_action(), get_id());
 
         // release the reference held by AGAS
         hpx::future<void> f2 = hpx::unregister_with_basename(
             stepper_basename, hpx::get_locality_id());
 
-        hpx::wait_all(f1, f2);       // ignore exceptions
+        hpx::wait_all(f1, f2);    // ignore exceptions
     }
 
     hpx::future<stepper_server::space> do_work(
@@ -45,4 +46,4 @@ struct stepper : hpx::components::client_base<stepper, stepper_server>
     }
 };
 
-#endif // STEPPER_HPP_
+#endif    // STEPPER_HPP_

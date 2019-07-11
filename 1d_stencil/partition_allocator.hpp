@@ -4,6 +4,7 @@
 #include <hpx/hpx.hpp>
 
 #include <mutex>
+#include <stack>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Use a special allocator for the partition data to remove a major contention
@@ -60,4 +61,4 @@ private:
     std::stack<T*> heap_;
 };
 
-#endif // PARTITION_ALLOCATOR_HPP_
+#endif    // PARTITION_ALLOCATOR_HPP_

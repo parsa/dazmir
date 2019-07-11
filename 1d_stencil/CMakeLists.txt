@@ -4,7 +4,6 @@ add_hpx_executable(1d_stencil
     options.cpp
     partition_data.cpp
     partition_server.cpp
-    stepper.cpp
     stepper_server.cpp
   HEADERS
     options.hpp
