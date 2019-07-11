@@ -36,14 +36,31 @@ struct partition_server : hpx::components::component_base<partition_server>
     // accessed. As long as the result is used locally, no data is copied,
     // however as soon as the result is requested from another locality only
     // the minimally required amount of data will go over the wire.
-    partition_data get_data(partition_type t) const;
+    partition_data get_data(partition_type t) const
+    {
+        switch (t)
+        {
+        case left_partition:
+            return partition_data(data_, data_.size() - 1);
+
+        case middle_partition:
+            break;
+
+        case right_partition:
+            return partition_data(data_, 0);
+
+        default:
+            HPX_ASSERT(false);
+            break;
+        }
+        return data_;
+    }
 
     // Every member function which has to be invoked remotely needs to be
     // wrapped into a component action. The macro below defines a new type
     // 'get_data_action' which represents the (possibly remote) member function
     // partition::get_data().
-    HPX_DEFINE_COMPONENT_DIRECT_ACTION(
-        partition_server, get_data, get_data_action);
+    HPX_DEFINE_COMPONENT_DIRECT_ACTION(partition_server, get_data);
 
 private:
     partition_data data_;

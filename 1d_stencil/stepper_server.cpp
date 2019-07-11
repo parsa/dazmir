@@ -23,12 +23,16 @@ stepper_server::space stepper_server::do_work(
 {
     // U[t][i] is the state of position i at time t.
     for (space& s : U_)
+    {
         s.resize(local_np);
+    }
 
     // Initial conditions: f(0, i) = i
     hpx::id_type here = hpx::find_here();
     for (std::size_t i = 0; i != local_np; ++i)
+    {
         U_[0][i] = partition(here, nx, double(i));
+    }
 
     // send initial values to neighbors
     if (nt != 0)
@@ -126,7 +130,9 @@ partition stepper_server::heat_part(
                 std::size_t size = m.size();
                 partition_data next(size);
                 for (std::size_t i = 1; i != size - 1; ++i)
+                {
                     next[i] = heat(m[i - 1], m[i], m[i + 1]);
+                }
                 return next;
             }));
 
@@ -152,7 +158,6 @@ partition stepper_server::heat_part(
                 middle_data,
                 right.get_data(partition_server::right_partition));
 }
-
 
 // The macros below are necessary to generate the code required for exposing
 // our partition type remotely.

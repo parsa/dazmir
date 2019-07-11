@@ -44,7 +44,7 @@ struct stepper_server : hpx::components::component_base<stepper_server>
     space do_work(
         std::size_t local_np, std::size_t nx, std::size_t nt, std::uint64_t nd);
 
-    HPX_DEFINE_COMPONENT_ACTION(stepper_server, do_work, do_work_action);
+    HPX_DEFINE_COMPONENT_ACTION(stepper_server, do_work);
 
     // receive the left-most partition from the right
     void from_right(std::size_t t, partition p)
@@ -58,8 +58,8 @@ struct stepper_server : hpx::components::component_base<stepper_server>
         left_receive_buffer_.store_received(t, std::move(p));
     }
 
-    HPX_DEFINE_COMPONENT_ACTION(stepper_server, from_right, from_right_action);
-    HPX_DEFINE_COMPONENT_ACTION(stepper_server, from_left, from_left_action);
+    HPX_DEFINE_COMPONENT_ACTION(stepper_server, from_right);
+    HPX_DEFINE_COMPONENT_ACTION(stepper_server, from_left);
 
     // release dependencies
     void release_dependencies()
@@ -68,8 +68,7 @@ struct stepper_server : hpx::components::component_base<stepper_server>
         right_ = hpx::shared_future<hpx::id_type>();
     }
 
-    HPX_DEFINE_COMPONENT_ACTION(
-        stepper_server, release_dependencies, release_dependencies_action);
+    HPX_DEFINE_COMPONENT_ACTION(stepper_server, release_dependencies);
 
 protected:
     // Our operator
