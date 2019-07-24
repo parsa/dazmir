@@ -5,6 +5,7 @@ project(dazmir CXX)
 find_package(HPX REQUIRED)
 
 add_subdirectory(1d_stencil)
+add_subdirectory(mig_bas)
 
 if(MSVC)
   # Enable solution folders for MSVC
