@@ -6,11 +6,15 @@
 #include <hpx/include/actions.hpp>
 #include <hpx/include/components.hpp>
 
+template <typename T>
+using migratable_component_base =
+hpx::components::migration_support<hpx::components::component_base<T>>;
+
 ///////////////////////////////////////////////////////////////////////////////
 // This is the server side representation of the data. We expose this as a HPX
 // component which allows for it to be created and accessed remotely through
 // a global address (hpx::id_type).
-struct partition_server : hpx::components::component_base<partition_server>
+struct partition_server : migratable_component_base<partition_server>
 {
     enum partition_type
     {
@@ -61,6 +65,12 @@ struct partition_server : hpx::components::component_base<partition_server>
     // 'get_data_action' which represents the (possibly remote) member function
     // partition::get_data().
     HPX_DEFINE_COMPONENT_DIRECT_ACTION(partition_server, get_data);
+
+    template <typename Archive>
+    void serialize(Archive& ar, unsigned version)
+    {
+        ar & data_;
+    }
 
 private:
     partition_data data_;
