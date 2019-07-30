@@ -96,7 +96,7 @@ private:
     template <typename Archive>
     void serialize(Archive& ar, const unsigned int version)
     {
-        ar& data_& size_& min_index_;
+        ar & data_ & size_ & min_index_;
     }
 
 private:
@@ -106,7 +106,6 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-
 std::ostream& operator<<(std::ostream& os, partition_data const& c);
 
 #endif    // PARTITION_DATA_HPP_

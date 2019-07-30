@@ -1,13 +1,13 @@
-//  Copyright (c) 2014 Hartmut Kaiser
-//  Copyright (c) 2014 Patricia Grubel
+// Copyright (c) 2014 Hartmut Kaiser
+// Copyright (c) 2014 Patricia Grubel
 //
-//  Distributed under the Boost Software License, Version 1.0. (See accompanying
-//  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #if !defined(PRINT_TIME_RESULTS_HPP_)
 #define PRINT_TIME_RESULTS_HPP_
 
-#include <hpx/util/format.hpp>
+#include <hpx/format.hpp>
 
 #include <cstdint>
 #include <iostream>
