@@ -182,10 +182,6 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 void migrate_component(hpx::id_type src, hpx::id_type target)
 {
-    auto f = hpx::make_ready_future(42);
-    auto sf = hpx::shared_future<int>(std::move(f));
-    auto sf2 = hpx::make_shared_future<int>(std::move(f));
-
     auto t1 = hpx::new_<mgcex_client>(src, 42);
 
     HPX_ASSERT(t1.call() == src);
