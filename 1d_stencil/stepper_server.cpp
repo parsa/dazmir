@@ -28,7 +28,7 @@ stepper_server::space stepper_server::do_work(
     }
 
     // Initial conditions: f(0, i) = i
-    hpx::id_type here = hpx::find_here();
+    hpx::id_type here = hpx::naming::get_id_from_locality_id(0);  //hpx::find_here();
     for (std::size_t i = 0; i != local_np; ++i)
     {
         U_[0][i] = partition(here, nx, double(i));
@@ -46,6 +46,10 @@ stepper_server::space stepper_server::do_work(
 
     for (std::size_t t = 0; t != nt; ++t)
     {
+        if (t == nt / 2)
+        {
+            U_[0][t] = partition(hpx::components::migrate(U_[0][t], hpx::find_here()));
+        }
         space const& current = U_[t % 2];
         space& next = U_[(t + 1) % 2];
 
