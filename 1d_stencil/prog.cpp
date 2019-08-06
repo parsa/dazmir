@@ -21,7 +21,7 @@
 #include <hpx/hpx.hpp>
 #include <hpx/lcos/gather.hpp>
 #include <hpx/runtime/serialization/serialize.hpp>
-#include <hpx/util/unused.hpp>
+#include <hpx/type_support/unused.hpp>
 
 #include <boost/shared_array.hpp>
 
@@ -125,13 +125,13 @@ int main(int argc, char* argv[])
     options_description desc_commandline;
     desc_commandline.add_options()
         ("results", "print generated results (default: false)")
-        ("nx", value<std::uint64_t>()->default_value(10),
+        ("nx", value<std::uint64_t>()->default_value(3),
          "Local x dimension (of each partition)")
-        ("nt", value<std::uint64_t>()->default_value(45),
+        ("nt", value<std::uint64_t>()->default_value(1),
          "Number of time steps")
-        ("nd", value<std::uint64_t>()->default_value(10),
+        ("nd", value<std::uint64_t>()->default_value(1),
          "Number of time steps to allow the dependency tree to grow to")
-        ("np", value<std::uint64_t>()->default_value(10),
+        ("np", value<std::uint64_t>()->default_value(2),
          "Number of partitions")
         ("k", value<double>(&k)->default_value(0.5),
          "Heat transfer coefficient (default: 0.5)")

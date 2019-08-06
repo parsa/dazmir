@@ -8,7 +8,7 @@
 
 template <typename T>
 using migratable_component_base =
-hpx::components::migration_support<hpx::components::component_base<T>>;
+    hpx::components::migration_support<hpx::components::component_base<T>>;
 
 ///////////////////////////////////////////////////////////////////////////////
 // This is the server side representation of the data. We expose this as a HPX
